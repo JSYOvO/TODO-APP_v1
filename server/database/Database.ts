@@ -1,5 +1,6 @@
-import * as mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { DB_URL } from "./DatabaseConfig";
+import { ITodoSchema } from "./Schema";
 
 export class Mongo {
     constructor(private url: string = DB_URL) {}
@@ -7,7 +8,7 @@ export class Mongo {
     public Connect(): void {
         mongoose.connect(
             this.url,
-            { useNewUrlParser: true } as mongoose.ConnectOptions,
+            { useNewUrlParser: true },
             (e: unknown) => {
                 if (e) {
                     console.log(`Unable to connect ` + e);
@@ -18,4 +19,5 @@ export class Mongo {
         );
     }
 }
-export type Model = mongoose.Model<mongoose.Document>;
+
+export type Model = mongoose.Model<ITodoSchema>;

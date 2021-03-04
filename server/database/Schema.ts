@@ -1,4 +1,4 @@
-import * as mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 export interface ITodoSchema extends mongoose.Document {
     Id: string;
@@ -9,7 +9,7 @@ export interface ITodoSchema extends mongoose.Document {
     Completed: boolean;
 }
 
-export const TodoSchema = new mongoose.Schema({
+export const TodoSchema = new Schema({
     Id: String,
     Title: String,
     Description: String,

@@ -1,31 +1,20 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
     "compileOnSave": false,
     "compilerOptions": {
-        "baseUrl": "./",
-        "outDir": "./dist/out-tsc",
-        "forceConsistentCasingInFileNames": true,
-        "strict": true,
-        "strictPropertyInitialization": false,
-        "strictNullChecks": false,
-        "noImplicitReturns": true,
-        "noFallthroughCasesInSwitch": true,
-        "sourceMap": true,
-        "declaration": false,
-        "downlevelIteration": true,
+        "target": "ES2016",
+        "module": "CommonJS",
+        "lib": ["ES2016", "ESNext.AsyncIterable", "DOM"],
+        "outDir": "./dist",
+        "noImplicitAny": true,
+        "esModuleInterop": true,
         "experimentalDecorators": true,
-        "moduleResolution": "node",
-        "importHelpers": true,
-        "target": "es2015",
-        "module": "es2020",
-        "lib": ["es2018", "dom"],
-        "skipLibCheck": true
+        "emitDecoratorMetadata": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strictPropertyInitialization": false
     },
-    "angularCompilerOptions": {
-        "enableI18nLegacyMessageIdFormat": false,
-        "strictInjectionParameters": true,
-        "strictInputAccessModifiers": true,
-        "strictTemplates": true
-    },
-    "exclude": ["database/node_modules"]
+
+    "exclude": ["node_modules"]
 }
