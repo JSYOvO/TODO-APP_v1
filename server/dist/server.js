@@ -51,8 +51,8 @@ class Server {
             // list.
             yield Prefill_1.Prefill.Instance.Populate();
             const server = new apollo_server_1.ApolloServer({ schema, playground: true });
-            yield server.listen(3000).then(() => {
-                console.log(`ApolloServer running on port 3000`);
+            yield server.listen(4000).then(() => {
+                console.log(`ApolloServer running on port 4000`);
             });
         });
     }

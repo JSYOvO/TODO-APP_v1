@@ -26,8 +26,8 @@ export class Server {
         await Prefill.Instance.Populate();
 
         const server = new ApolloServer({ schema, playground: true });
-        await server.listen(3000).then(() => {
-            console.log(`ApolloServer running on port 3000`);
+        await server.listen(4000).then(() => {
+            console.log(`ApolloServer running on port 4000`);
         });
     }
 }
