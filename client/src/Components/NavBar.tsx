@@ -16,18 +16,10 @@ const NavBar: React.FC<NavBar> = ({ props }: any) => {
     const [isOpen, setIsOpen] = React.useState(false);
 
     const toggle = () => setIsOpen(!isOpen);
-
+    console.log("@@@");
     return (
         <NavBarContainer {...props}>
-            <Logo
-            // w="100px"
-            // color={[
-            //     "white",
-            //     "white",
-            //     "primary.500",
-            //     "primary.500",
-            // ]}
-            />
+            <Logo />
             <MenuToggle toggle={toggle} isOpen={isOpen} />
             <MenuLinks isOpen={isOpen} />
         </NavBarContainer>

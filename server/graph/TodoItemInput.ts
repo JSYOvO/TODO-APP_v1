@@ -11,7 +11,7 @@ export class TodoItemInput implements Partial<TodoItem> {
     Description?: string = "";
     @Field({ nullable: true, description: "The item due date" })
     DueDate?: Date;
-    @Field()
+    @Field({ nullable: true })
     CreationDate: Date;
     @Field()
     Completed: boolean = false;

@@ -45,6 +45,7 @@ export class TodoItemResolver implements ResolverInterface<TodoItem> {
             Title: todoItemInput.Title,
             Completed: todoItemInput.Completed,
         };
+        console.log(todoItem);
         todoItem.Completed = false;
         await Prefill.Instance.Items.push(todoItem);
         await this.dataAccess.Add(this.CreateTodoSchema(todoItem));

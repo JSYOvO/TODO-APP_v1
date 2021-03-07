@@ -12,7 +12,7 @@ import reportWebVitals from "./reportWebVitals";
 import customTheme from "./utils/theme";
 
 const client = new ApolloClient({
-    uri: "https://localhost:4000",
+    uri: "http://localhost:4000/graphql",
     cache: new InMemoryCache(),
     defaultOptions: {
         watchQuery: {

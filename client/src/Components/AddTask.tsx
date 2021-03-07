@@ -1,5 +1,6 @@
 import { useMutation } from "@apollo/client";
 import {
+    Box,
     Button,
     Drawer,
     DrawerBody,
@@ -13,17 +14,30 @@ import {
 } from "@chakra-ui/react";
 import { gql } from "graphql-tag";
 import React, { RefObject, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 interface AddTask {}
 
 const AddTask: React.FC<AddTask> = ({}) => {
+    const [startDate, setStartDate] = useState(
+        new Date("2014/02/08")
+    );
+    const [endDate, setEndDate] = useState(new Date("2014/02/10"));
     const [taskDesc, setTaskDesc] = useState("");
     const { isOpen, onOpen, onClose } = useDisclosure();
     const btnRef = React.useRef() as RefObject<HTMLButtonElement>;
+
     const ADD = gql`
-        mutation Add($input: TodoItemInput!) {
-            Add(TodoItem: $input) {
+        mutation Add($Id: String!, $CreationDate: String!) {
+            Add(TodoItem: { Id: $Id, CreationDate: $CreationDate }) {
+                Id
                 Title
+                Description
+                DueDate
+                CreationDate
+                DaysCreated
+                Completed
             }
         }
     `;
@@ -63,6 +77,7 @@ const AddTask: React.FC<AddTask> = ({}) => {
                 placement="right"
                 onClose={onClose}
                 finalFocusRef={btnRef}
+                size="lg"
             >
                 <DrawerOverlay>
                     <DrawerContent>
@@ -71,13 +86,50 @@ const AddTask: React.FC<AddTask> = ({}) => {
                             Create your new task
                         </DrawerHeader>
 
-                        <DrawerBody>
+                        <DrawerBody
+                            display="flex"
+                            flexDirection="column"
+                        >
                             <Input
                                 placeholder="Type here..."
                                 onChange={(e) =>
                                     setTaskDesc(e.target.value)
                                 }
+                                marginBottom="10%"
                             />
+                            <Box
+                                display="flex"
+                                flexDirection="column"
+                                width="100%"
+                                justifyItems="flex-start"
+                                marginBottom="auto"
+                            >
+                                <DatePicker
+                                    selected={startDate}
+                                    onChange={(date: Date | null) =>
+                                        date && setStartDate(date)
+                                    }
+                                    selectsStart
+                                    startDate={startDate}
+                                    endDate={endDate}
+                                    dateFormat="MMMM d, yyyy h:mm aa"
+                                    showTimeSelect
+                                    className="date__picker"
+                                />
+                                <DatePicker
+                                    selected={endDate}
+                                    onChange={(date: Date | null) =>
+                                        date && setEndDate(date)
+                                    }
+                                    selectsEnd
+                                    startDate={startDate}
+                                    endDate={endDate}
+                                    minDate={startDate}
+                                    dateFormat="MMMM d, yyyy h:mm aa"
+                                    showTimeSelect
+                                    className="date__picker"
+                                />
+                            </Box>
                         </DrawerBody>
 
                         <DrawerFooter>

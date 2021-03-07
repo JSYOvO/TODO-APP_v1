@@ -35,7 +35,7 @@ __decorate([
     __metadata("design:type", Date)
 ], TodoItemInput.prototype, "DueDate", void 0);
 __decorate([
-    type_graphql_1.Field(),
+    type_graphql_1.Field({ nullable: true }),
     __metadata("design:type", Date)
 ], TodoItemInput.prototype, "CreationDate", void 0);
 __decorate([

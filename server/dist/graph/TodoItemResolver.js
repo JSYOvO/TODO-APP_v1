@@ -54,6 +54,7 @@ let TodoItemResolver = class TodoItemResolver {
                 Title: todoItemInput.Title,
                 Completed: todoItemInput.Completed,
             };
+            console.log(todoItem);
             todoItem.Completed = false;
             yield Prefill_1.Prefill.Instance.Items.push(todoItem);
             yield this.dataAccess.Add(this.CreateTodoSchema(todoItem));
