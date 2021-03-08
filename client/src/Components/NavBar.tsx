@@ -1,3 +1,4 @@
+import { ApolloQueryResult } from "@apollo/client";
 import {
     Box,
     Button,
@@ -10,18 +11,22 @@ import React from "react";
 import AddTask from "./AddTask";
 import Logo from "./Logo";
 
-interface NavBar {}
+interface NavBar {
+    refetch: (
+        variables?: Partial<Record<string, any>> | undefined
+    ) => Promise<ApolloQueryResult<any>>;
+}
 
-const NavBar: React.FC<NavBar> = ({ props }: any) => {
+const NavBar: React.FC<NavBar> = ({ refetch }) => {
     const [isOpen, setIsOpen] = React.useState(false);
 
     const toggle = () => setIsOpen(!isOpen);
-    console.log("@@@");
+
     return (
-        <NavBarContainer {...props}>
+        <NavBarContainer>
             <Logo />
             <MenuToggle toggle={toggle} isOpen={isOpen} />
-            <MenuLinks isOpen={isOpen} />
+            <MenuLinks isOpen={isOpen} refetch={refetch} />
         </NavBarContainer>
     );
 };
@@ -72,7 +77,7 @@ const MenuItem = ({ children, isLast, to = "/", ...rest }: any) => {
     );
 };
 
-const MenuLinks = ({ isOpen }: any) => {
+const MenuLinks = ({ isOpen, refetch }: any) => {
     return (
         <Box
             display={{ base: isOpen ? "block" : "none", md: "block" }}
@@ -91,7 +96,7 @@ const MenuLinks = ({ isOpen }: any) => {
                 pt={[4, 4, 0, 0]}
             >
                 <MenuItem to="/over">Overdue Tasks </MenuItem>
-                <AddTask />
+                <AddTask refetch={refetch} />
             </Stack>
         </Box>
     );

@@ -41,7 +41,6 @@ export class TodoItemResolver implements ResolverInterface<TodoItem> {
             Id: todoItemInput.Id,
             CreationDate: todoItemInput.CreationDate,
             DueDate: todoItemInput.DueDate,
-            Description: todoItemInput.Description,
             Title: todoItemInput.Title,
             Completed: todoItemInput.Completed,
         };
@@ -59,7 +58,6 @@ export class TodoItemResolver implements ResolverInterface<TodoItem> {
             Id: todoItem.Id,
             CreationDate: todoItem.CreationDate,
             DueDate: todoItem.DueDate,
-            Description: todoItem.Description,
             Title: todoItem.Title,
             Completed: todoItem.Completed,
         };
@@ -76,7 +74,6 @@ export class TodoItemResolver implements ResolverInterface<TodoItem> {
         );
         if (!item) return false;
         item.Title = todoItemInput.Title;
-        item.Description = todoItemInput.Description;
         item.DueDate = todoItemInput.DueDate;
         await this.dataAccess.Update(
             item.Id,

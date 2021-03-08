@@ -18,7 +18,7 @@ let TodoItem = class TodoItem {
     }
 };
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.ID),
+    type_graphql_1.Field((type) => type_graphql_1.ID),
     __metadata("design:type", String)
 ], TodoItem.prototype, "Id", void 0);
 __decorate([
@@ -26,19 +26,21 @@ __decorate([
     __metadata("design:type", String)
 ], TodoItem.prototype, "Title", void 0);
 __decorate([
-    type_graphql_1.Field({ nullable: true, description: "The description of the item." }),
-    __metadata("design:type", String)
-], TodoItem.prototype, "Description", void 0);
-__decorate([
-    type_graphql_1.Field({ nullable: true, description: "The due date for the item" }),
+    type_graphql_1.Field({
+        nullable: true,
+        description: "The due date for the item",
+    }),
     __metadata("design:type", Date)
 ], TodoItem.prototype, "DueDate", void 0);
 __decorate([
-    type_graphql_1.Field({ nullable: true, description: "The date the item was created" }),
+    type_graphql_1.Field({
+        nullable: true,
+        description: "The date the item was created",
+    }),
     __metadata("design:type", Date)
 ], TodoItem.prototype, "CreationDate", void 0);
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.Int),
+    type_graphql_1.Field((type) => type_graphql_1.Int),
     __metadata("design:type", Number)
 ], TodoItem.prototype, "DaysCreated", void 0);
 __decorate([

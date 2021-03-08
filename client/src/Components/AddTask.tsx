@@ -1,4 +1,4 @@
-import { useMutation } from "@apollo/client";
+import { ApolloQueryResult, useMutation } from "@apollo/client";
 import {
     Box,
     Button,
@@ -11,41 +11,49 @@ import {
     DrawerOverlay,
     Input,
     useDisclosure,
+    Badge,
+    Text,
 } from "@chakra-ui/react";
-import { gql } from "graphql-tag";
 import React, { RefObject, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { ADD } from "../Graphql/Add";
 
-interface AddTask {}
+interface AddTask {
+    refetch: (
+        variables?: Partial<Record<string, any>> | undefined
+    ) => Promise<ApolloQueryResult<any>>;
+}
 
-const AddTask: React.FC<AddTask> = ({}) => {
-    const [startDate, setStartDate] = useState(
-        new Date("2014/02/08")
-    );
-    const [endDate, setEndDate] = useState(new Date("2014/02/10"));
+const AddTask: React.FC<AddTask> = ({ refetch }) => {
+    const btnRef = React.useRef() as RefObject<HTMLButtonElement>;
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
     const [taskDesc, setTaskDesc] = useState("");
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const btnRef = React.useRef() as RefObject<HTMLButtonElement>;
 
-    const ADD = gql`
-        mutation Add($Id: String!, $CreationDate: String!) {
-            Add(TodoItem: { Id: $Id, CreationDate: $CreationDate }) {
-                Id
-                Title
-                Description
-                DueDate
-                CreationDate
-                DaysCreated
-                Completed
-            }
-        }
-    `;
     const [add, { data }] = useMutation(ADD);
+
     const handleSave = (e: any) => {
         e.preventDefault();
-        console.log(taskDesc);
-        add({ variables: { type: taskDesc } });
+
+        add({
+            variables: {
+                Id: "1",
+                Title: taskDesc,
+                CreationDate: startDate,
+                DueDate: endDate,
+            },
+        })
+            .then((res) => {
+                console.log(res);
+                refetch();
+                onClose();
+            })
+            .catch((err) => {
+                console.error(err);
+                onClose();
+            });
     };
     return (
         <div className="App">
@@ -77,7 +85,7 @@ const AddTask: React.FC<AddTask> = ({}) => {
                 placement="right"
                 onClose={onClose}
                 finalFocusRef={btnRef}
-                size="lg"
+                size="sm"
             >
                 <DrawerOverlay>
                     <DrawerContent>
@@ -100,35 +108,47 @@ const AddTask: React.FC<AddTask> = ({}) => {
                             <Box
                                 display="flex"
                                 flexDirection="column"
-                                width="100%"
-                                justifyItems="flex-start"
-                                marginBottom="auto"
+                                height="100%"
                             >
-                                <DatePicker
-                                    selected={startDate}
-                                    onChange={(date: Date | null) =>
-                                        date && setStartDate(date)
-                                    }
-                                    selectsStart
-                                    startDate={startDate}
-                                    endDate={endDate}
-                                    dateFormat="MMMM d, yyyy h:mm aa"
-                                    showTimeSelect
-                                    className="date__picker"
-                                />
-                                <DatePicker
-                                    selected={endDate}
-                                    onChange={(date: Date | null) =>
-                                        date && setEndDate(date)
-                                    }
-                                    selectsEnd
-                                    startDate={startDate}
-                                    endDate={endDate}
-                                    minDate={startDate}
-                                    dateFormat="MMMM d, yyyy h:mm aa"
-                                    showTimeSelect
-                                    className="date__picker"
-                                />
+                                <Box>
+                                    <Text fontWeight="bold">
+                                        Start
+                                    </Text>
+                                    <DatePicker
+                                        selected={startDate}
+                                        onChange={(
+                                            date: Date | null
+                                        ) =>
+                                            date && setStartDate(date)
+                                        }
+                                        selectsStart
+                                        startDate={startDate}
+                                        endDate={endDate}
+                                        dateFormat="Y.MM.dd  hh:mm"
+                                        showTimeSelect
+                                        className="date__picker"
+                                    />
+                                </Box>
+                                <Box>
+                                    <Text
+                                        fontWeight="bold"
+                                        paddingTop="20px"
+                                    >
+                                        End
+                                    </Text>
+                                    <DatePicker
+                                        selected={endDate}
+                                        onChange={(
+                                            date: Date | null
+                                        ) => date && setEndDate(date)}
+                                        selectsEnd
+                                        startDate={startDate}
+                                        endDate={endDate}
+                                        dateFormat="Y.MM.dd  hh:mm"
+                                        showTimeSelect
+                                        className="date__picker"
+                                    />
+                                </Box>
                             </Box>
                         </DrawerBody>
 

@@ -22,13 +22,12 @@ class Prefill {
             try {
                 const schema = yield this.dataAccess.GetAll();
                 this.items = new Array();
-                schema.forEach(item => {
+                schema.forEach((item) => {
                     const todoItem = new TodoItem_1.TodoItem();
                     todoItem.Id = item.Id;
                     todoItem.Completed = item.Completed;
                     todoItem.CreationDate = item.CreationDate;
                     todoItem.DueDate = item.DueDate;
-                    todoItem.Description = item.Description;
                     todoItem.Title = item.Title;
                     this.items.push(todoItem);
                 });

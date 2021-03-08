@@ -1,5 +1,5 @@
-import { gql, useQuery } from "@apollo/client";
-import { Flex } from "@chakra-ui/react";
+import { ApolloQueryResult, useMutation } from "@apollo/client";
+import { Button, Flex } from "@chakra-ui/react";
 import {
     Stat,
     StatGroup,
@@ -7,23 +7,32 @@ import {
     StatLabel,
 } from "@chakra-ui/stat";
 import React from "react";
+import { REMOVE } from "../Graphql/Remove";
 
-interface TodoLists {}
+interface TodoLists {
+    data: any;
+    refetch: (
+        variables?: Partial<Record<string, any>> | undefined
+    ) => Promise<ApolloQueryResult<any>>;
+}
 
-const TODOITEMS = gql`
-    query TodoItems {
-        TodoItems {
-            Id
-            Title
-            Description
-            DueDate
-        }
-    }
-`;
-const TodoLists: React.FC<TodoLists> = ({}) => {
-    const { loading, error, data } = useQuery(TODOITEMS);
-    if (loading) return <div>"Loading..."</div>;
-    if (error) return <div>`Error! ${error.message}`</div>;
+const TodoLists: React.FC<TodoLists> = ({ data, refetch }) => {
+    const [remove] = useMutation(REMOVE);
+
+    const handleDelete = function (e: any) {
+        e.preventDefault();
+        console.log(e.target.value);
+        remove({
+            variables: {
+                Id: e.target.value,
+            },
+        })
+            .then(() => refetch())
+            .catch((err) => {
+                console.error(err);
+            });
+    };
+
     return (
         <Flex alignItems="center" width="100%">
             <StatGroup
@@ -34,16 +43,35 @@ const TodoLists: React.FC<TodoLists> = ({}) => {
                 {data.TodoItems.map((item: any) => {
                     return (
                         <Stat
-                            backgroundColor="#0CA25F"
-                            color="white"
+                            color="#0CA25F"
+                            border="solid"
                             paddingX="10"
                             paddingY="5"
-                            borderRadius="8px"
+                            borderRadius="10px"
                         >
-                            <StatLabel>{item.Title}</StatLabel>
+                            <StatLabel
+                                fontSize="lg"
+                                fontWeight="bold"
+                            >
+                                {item.Title}
+                            </StatLabel>
                             <StatHelpText>
                                 {item.Description}
                             </StatHelpText>
+                            <Button
+                                colorScheme="blue"
+                                variant="solid"
+                            >
+                                Edit
+                            </Button>
+                            <Button
+                                colorScheme="pink"
+                                variant="solid"
+                                value={item.Id}
+                                onClick={(e) => handleDelete(e)}
+                            >
+                                Delete
+                            </Button>
                         </Stat>
                     );
                 })}

@@ -50,7 +50,6 @@ let TodoItemResolver = class TodoItemResolver {
                 Id: todoItemInput.Id,
                 CreationDate: todoItemInput.CreationDate,
                 DueDate: todoItemInput.DueDate,
-                Description: todoItemInput.Description,
                 Title: todoItemInput.Title,
                 Completed: todoItemInput.Completed,
             };
@@ -66,7 +65,6 @@ let TodoItemResolver = class TodoItemResolver {
             Id: todoItem.Id,
             CreationDate: todoItem.CreationDate,
             DueDate: todoItem.DueDate,
-            Description: todoItem.Description,
             Title: todoItem.Title,
             Completed: todoItem.Completed,
         };
@@ -77,7 +75,6 @@ let TodoItemResolver = class TodoItemResolver {
             if (!item)
                 return false;
             item.Title = todoItemInput.Title;
-            item.Description = todoItemInput.Description;
             item.DueDate = todoItemInput.DueDate;
             yield this.dataAccess.Update(item.Id, this.CreateTodoSchema(item));
             return true;
