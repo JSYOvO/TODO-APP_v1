@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/stat";
 import React from "react";
 import { REMOVE } from "../Graphql/Remove";
+import { UPDATE } from "../Graphql/Update";
 
 interface TodoLists {
     data: any;
@@ -18,16 +19,36 @@ interface TodoLists {
 
 const TodoLists: React.FC<TodoLists> = ({ data, refetch }) => {
     const [remove] = useMutation(REMOVE);
+    const [Update] = useMutation(UPDATE);
 
     const handleDelete = function (e: any) {
         e.preventDefault();
-        console.log(e.target.value);
+
         remove({
             variables: {
                 Id: e.target.value,
             },
         })
             .then(() => refetch())
+            .catch((err) => {
+                console.error(err);
+            });
+    };
+
+    const handleEdit = function (e: any) {
+        e.preventDefault();
+        console.log(e.target.value);
+        Update({
+            variables: {
+                Id: "1",
+                Title: "taskDesc",
+                CreationDate: e.target.value[0],
+                DueDate: e.target.value[1],
+            },
+        })
+            .then((res) => {
+                if (res.data.Update) refetch();
+            })
             .catch((err) => {
                 console.error(err);
             });
@@ -41,6 +62,12 @@ const TodoLists: React.FC<TodoLists> = ({ data, refetch }) => {
                 justifySelf="center"
             >
                 {data.TodoItems.map((item: any) => {
+                    const CreationDate = new Date(
+                        Date.parse(item.CreationDate)
+                    );
+                    const DueDate = new Date(
+                        Date.parse(item.DueDate)
+                    );
                     return (
                         <Stat
                             color="#0CA25F"
@@ -52,15 +79,41 @@ const TodoLists: React.FC<TodoLists> = ({ data, refetch }) => {
                             <StatLabel
                                 fontSize="lg"
                                 fontWeight="bold"
+                                marginY="5"
+                                width="100%"
                             >
                                 {item.Title}
                             </StatLabel>
                             <StatHelpText>
-                                {item.Description}
+                                시작 :{" "}
+                                {CreationDate.getMonth() +
+                                    "월 " +
+                                    CreationDate.getDay() +
+                                    "일 " +
+                                    CreationDate.getHours() +
+                                    "시 " +
+                                    CreationDate.getMinutes() +
+                                    "분"}
+                            </StatHelpText>
+                            <StatHelpText>
+                                종료 :{" "}
+                                {DueDate.getMonth() +
+                                    "월 " +
+                                    DueDate.getDay() +
+                                    "일 " +
+                                    DueDate.getHours() +
+                                    "시 " +
+                                    DueDate.getMinutes() +
+                                    "분"}
                             </StatHelpText>
                             <Button
                                 colorScheme="blue"
                                 variant="solid"
+                                value={[
+                                    item.CreationDate,
+                                    item.DueDate,
+                                ]}
+                                onClick={(e) => handleEdit(e)}
                             >
                                 Edit
                             </Button>

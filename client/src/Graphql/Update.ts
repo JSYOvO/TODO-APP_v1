@@ -1,26 +1,19 @@
 import { gql } from "@apollo/client";
 
-export const ADD = gql`
-    mutation Add(
+export const UPDATE = gql`
+    mutation Update(
         $Id: String!
         $Title: String!
         $CreationDate: DateTime!
         $DueDate: DateTime!
     ) {
-        Add(
+        Update(
             TodoItem: {
                 Id: $Id
                 Title: $Title
                 CreationDate: $CreationDate
                 DueDate: $DueDate
             }
-        ) {
-            Id
-            Title
-            CreationDate
-            DueDate
-            DaysCreated
-            Completed
-        }
+        )
     }
 `;
