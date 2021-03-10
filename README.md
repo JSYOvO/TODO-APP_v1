@@ -10,6 +10,9 @@
 
 ## 🧱 기술 스택
 
-React + TypeScript, Graphql + Apollo Client, Node Express, MongoDB + Mongoose
+React + TypeScript
+Graphql + Apollo Client
+Node Express
+MongoDB + Mongoose
 
 <br/>

@@ -1,15 +1,9 @@
 import { ApolloQueryResult } from "@apollo/client";
-import {
-    Box,
-    Button,
-    Flex,
-    Link,
-    Stack,
-    Text,
-} from "@chakra-ui/react";
+import { Box, Flex, Link, Stack, Text } from "@chakra-ui/react";
 import React from "react";
 import AddTask from "./AddTask";
 import Logo from "./Logo";
+import SearchBar from "./SearchBar";
 
 interface NavBar {
     refetch: (

@@ -14,6 +14,7 @@ const Logo: React.FC<Logo> = ({ props }: any) => {
                 border="solid"
                 paddingX="2.5"
                 paddingY="1.25"
+                backgroundColor="white"
             >
                 <Link href={"/"}>
                     <Text display="block">JSYOvO</Text>

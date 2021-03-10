@@ -1,7 +1,9 @@
 import { useQuery } from "@apollo/client";
 import React from "react";
 import "./App.css";
+import Clock from "./Components/Clock";
 import NavBar from "./Components/NavBar";
+import SearchBar from "./Components/SearchBar";
 import TodoLists from "./Components/TodoLists";
 import { TODOITEMS } from "./Graphql/TodoItems";
 
@@ -14,6 +16,8 @@ const App: React.FC<App> = () => {
     return (
         <div className="app">
             <NavBar refetch={refetch} />
+            <Clock />
+            <SearchBar />
             <TodoLists data={data} refetch={refetch} />
         </div>
     );

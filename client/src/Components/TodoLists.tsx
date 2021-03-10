@@ -1,5 +1,5 @@
 import { ApolloQueryResult, useMutation } from "@apollo/client";
-import { Button, Flex } from "@chakra-ui/react";
+import { Button, Flex, StackDivider, VStack } from "@chakra-ui/react";
 import {
     Stat,
     StatGroup,
@@ -55,81 +55,92 @@ const TodoLists: React.FC<TodoLists> = ({ data, refetch }) => {
     };
 
     return (
-        <Flex alignItems="center" width="100%">
-            <StatGroup
-                width="60%"
-                alignItems="center"
-                justifySelf="center"
-            >
-                {data.TodoItems.map((item: any) => {
-                    const CreationDate = new Date(
-                        Date.parse(item.CreationDate)
-                    );
-                    const DueDate = new Date(
-                        Date.parse(item.DueDate)
-                    );
-                    return (
-                        <Stat
-                            color="#0CA25F"
-                            border="solid"
-                            paddingX="10"
-                            paddingY="5"
-                            borderRadius="10px"
-                        >
-                            <StatLabel
-                                fontSize="lg"
-                                fontWeight="bold"
-                                marginY="5"
-                                width="100%"
+        <VStack
+            divider={<StackDivider borderColor="white" />}
+            spacing={4}
+            align="stretch"
+            marginBottom="10%"
+        >
+            {data.TodoItems.map((item: any) => {
+                const CreationDate = new Date(
+                    Date.parse(item.CreationDate)
+                );
+                const DueDate = new Date(Date.parse(item.DueDate));
+                return (
+                    <Stat
+                        color="#0CA25F"
+                        border="solid"
+                        paddingX="10"
+                        borderRadius="10px"
+                        marginX="20%"
+                    >
+                        <Flex>
+                            <Flex
+                                flexDirection="column"
+                                marginRight="auto"
+                                paddingY="5"
                             >
-                                {item.Title}
-                            </StatLabel>
-                            <StatHelpText>
-                                시작 :{" "}
-                                {CreationDate.getMonth() +
-                                    "월 " +
-                                    CreationDate.getDay() +
-                                    "일 " +
-                                    CreationDate.getHours() +
-                                    "시 " +
-                                    CreationDate.getMinutes() +
-                                    "분"}
-                            </StatHelpText>
-                            <StatHelpText>
-                                종료 :{" "}
-                                {DueDate.getMonth() +
-                                    "월 " +
-                                    DueDate.getDay() +
-                                    "일 " +
-                                    DueDate.getHours() +
-                                    "시 " +
-                                    DueDate.getMinutes() +
-                                    "분"}
-                            </StatHelpText>
-                            <Button
-                                colorScheme="blue"
-                                variant="solid"
-                                value={[
-                                    item.CreationDate,
-                                    item.DueDate,
-                                ]}
-                                onClick={(e) => handleEdit(e)}
-                            >
-                                Edit
-                            </Button>
-                            <Button
-                                colorScheme="pink"
-                                variant="solid"
-                                value={item.Id}
-                                onClick={(e) => handleDelete(e)}
-                            >
-                                Delete
-                            </Button>
-                        </Stat>
-                    );
-                })}
-            </StatGroup>
-        </Flex>
+                                <StatLabel
+                                    fontSize="x-large"
+                                    fontWeight="bold"
+                                    width="100%"
+                                    marginBottom="2"
+                                >
+                                    {item.Title}
+                                </StatLabel>
+                                <StatHelpText fontSize="md">
+                                    시작 :{" "}
+                                    {CreationDate.getMonth() +
+                                        "월 " +
+                                        CreationDate.getDay() +
+                                        "일 " +
+                                        CreationDate.getHours() +
+                                        "시 " +
+                                        CreationDate.getMinutes() +
+                                        "분"}
+                                </StatHelpText>
+                                <StatHelpText fontSize="md">
+                                    종료 :{" "}
+                                    {DueDate.getMonth() +
+                                        "월 " +
+                                        DueDate.getDay() +
+                                        "일 " +
+                                        DueDate.getHours() +
+                                        "시 " +
+                                        DueDate.getMinutes() +
+                                        "분"}
+                                </StatHelpText>
+                            </Flex>
+                            <Flex marginY="auto">
+                                <Button
+                                    color="#0CA25F"
+                                    marginX="2"
+                                    border="solid"
+                                    value={[
+                                        item.CreationDate,
+                                        item.DueDate,
+                                    ]}
+                                    onClick={(e) => handleEdit(e)}
+                                >
+                                    Edit
+                                </Button>
+                                <Button
+                                    backgroundColor="#0CA25F"
+                                    border="solid"
+                                    marginX="2"
+                                    borderColor="#0CA25F"
+                                    color="white"
+                                    value={item.Id}
+                                    onClick={(e) => handleDelete(e)}
+                                >
+                                    Delete
+                                </Button>
+                            </Flex>
+                        </Flex>
+                    </Stat>
+                );
+            })}
+        </VStack>
     );
 };
 
